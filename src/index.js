@@ -10,6 +10,7 @@ import _ from "lodash";
 
 const { Header, Content, Footer, Sider } = Layout;
 const Option = Select.Option;
+const { SubMenu } = Menu
 
 class CurrencyParent extends React.Component {
 
@@ -176,7 +177,7 @@ class App extends React.Component {
                 selectKind: this.state.kind[parseInt(item.key)]
             })
           }
-          else{
+          else if(i=="addMore") {
               this.setState({
                   add: true
               })
@@ -195,8 +196,8 @@ class App extends React.Component {
           return result
       }
       handleClick (item) {
-        var i = parseInt(item.key)
-        if (i < 0 && !this.state.add){
+        console.log(item.key)
+        if (item.key == "addMore" && !this.state.add){
               this.setState({
                   add: true
               })
@@ -242,13 +243,26 @@ class App extends React.Component {
               onCollapse={this.onCollapse}
             >
               <div className="logo" />
-              <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline" onSelect={this.changeSelect.bind(this)} 
+              <Menu theme="dark" defaultSelectedKeys={['first']} defaultOpenKeys={['subfirst','subsecond']}
+              mode="inline" onSelect={this.changeSelect.bind(this)} 
               onClick={this.handleClick.bind(this)}>
-              {this.menu(this.state.kind)}
-              <Menu.Item key="-1">
-              <Icon type="plus-square-o" />
-              <span>&nbsp;Add&nbsp;More</span>
+              <Menu.Item key="first">
+              <Icon type="smile" />
+              <span>&nbsp;Welcome</span>
               </Menu.Item>
+              <SubMenu key="subfirst" title={<span><Icon type="appstore" /><span>&nbsp;Product</span></span>}>
+              <Menu.Item key="subsubfirst">
+              <Icon type="sync" />
+              <span>&nbsp;Converter</span>
+              </Menu.Item>
+              <SubMenu key="subsecond" title={<span><Icon type="pay-circle" /><span>&nbsp;Currencies</span></span>}>
+              {this.menu(this.state.kind)}
+              <Menu.Item key="addMore">
+              <Icon type="plus-square" />
+              <span>&nbsp;Add More</span>
+              </Menu.Item>
+              </SubMenu>
+              </SubMenu>
               </Menu>
             </Sider>
             <Layout>
