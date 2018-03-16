@@ -102,15 +102,40 @@ class App extends React.Component {
       }
       showContent(){
         var showPage = this.state.showPage
-        if (showPage == "first"){
+        if (showPage == "first") {
           return <Welcome/>
         }
-        else if (showPage == "subsubfirst"){
+        else if (showPage == "subsubfirst") {
           return <Converter/>
         }
-        else if (showPage == "currency"){
+        else if (showPage == "currency") {
           return <CurrencyParent symbol={this.state.selectKind}/>
         }
+      }
+      showBread () {
+
+        var showPage = this.state.showPage
+
+        if (showPage === "first") {
+          return <Breadcrumb.Item>Welcome</Breadcrumb.Item>
+        }
+        else if (showPage === "subsubfirst") {
+          return (
+          <div>
+          <Breadcrumb.Item>Product</Breadcrumb.Item>
+          <Breadcrumb.Item>Converter</Breadcrumb.Item>
+          </div>
+          )
+      }
+        else if (showPage === "currency") {
+          return (
+          <div>
+          <Breadcrumb.Item>Product</Breadcrumb.Item>
+          <Breadcrumb.Item>Currency</Breadcrumb.Item>
+          <Breadcrumb.Item>{this.state.selectKind}</Breadcrumb.Item>
+          </div>
+          )
+          }
       }
 
     render() {
@@ -149,8 +174,7 @@ class App extends React.Component {
               <Header style={{ background: '#fff', padding: 0 }} />
               <Content style={{ margin: '0 16px' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
-                  <Breadcrumb.Item>Currency</Breadcrumb.Item>
-                  <Breadcrumb.Item>{this.state.selectKind}</Breadcrumb.Item>
+                  {this.showBread()}
                 </Breadcrumb>
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                   {this.showContent()}
