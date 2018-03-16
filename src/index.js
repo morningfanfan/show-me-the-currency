@@ -117,23 +117,28 @@ class App extends React.Component {
         var showPage = this.state.showPage
 
         if (showPage === "first") {
-          return <Breadcrumb.Item>Welcome</Breadcrumb.Item>
+          return (
+            <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>Welcome</Breadcrumb.Item>
+            </Breadcrumb>
+          )
+          
         }
         else if (showPage === "subsubfirst") {
           return (
-          <div>
+          <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Product</Breadcrumb.Item>
           <Breadcrumb.Item>Converter</Breadcrumb.Item>
-          </div>
+          </Breadcrumb>
           )
       }
         else if (showPage === "currency") {
           return (
-          <div>
+          <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Product</Breadcrumb.Item>
           <Breadcrumb.Item>Currency</Breadcrumb.Item>
           <Breadcrumb.Item>{this.state.selectKind}</Breadcrumb.Item>
-          </div>
+          </Breadcrumb>
           )
           }
       }
@@ -173,12 +178,10 @@ class App extends React.Component {
             <Layout>
               <Header style={{ background: '#fff', padding: 0 }} />
               <Content style={{ margin: '0 16px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
                   {this.showBread()}
-                </Breadcrumb>
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                   {this.showContent()}
-                {this.addMore()}
+                  {this.addMore()}
                 </div>
               </Content>
               <Footer style={{ textAlign: 'center' }}>
