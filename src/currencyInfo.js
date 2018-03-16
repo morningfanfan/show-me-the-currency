@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Row, Col, Icon } from 'antd';
 import * as V from 'victory';
 import _ from "lodash";
 
@@ -63,7 +64,26 @@ class CurrencyParent extends React.Component {
     }
 
     render() {
-        return <CurrencyChild rateRange={this.state.rateRange}/>  
+        return (
+        <div>
+        <Row>
+            <h2 className="title">
+            <Col span={24}><span><Icon type="calculator" /><span>&nbsp;Live Currency</span></span></Col>
+            </h2>
+        </Row>
+        <Row>
+        <Col span={12} offset={6}>1{this.props.symbol}=x EUR</Col>
+        </Row>
+        <Row>
+        <h2 className="title">
+        <Col span={24}><span><Icon type="line-chart" /><span>&nbsp;Trend in past ten years</span></span></Col>
+        </h2>
+        </Row>
+        <Row>
+        <Col span={12} offset={6}><CurrencyChild rateRange={this.state.rateRange}/></Col>
+        </Row>
+        </div>
+        ) 
     }
 }
 

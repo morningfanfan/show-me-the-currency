@@ -162,7 +162,7 @@ class App extends React.Component {
               </Menu.Item>
               <SubMenu key="subfirst" title={<span><Icon type="appstore" /><span>&nbsp;Product</span></span>}>
               <Menu.Item key="subsubfirst">
-              <Icon type="sync" />
+              <Icon type="heart" />
               <span>&nbsp;Converter</span>
               </Menu.Item>
               <SubMenu key="subsecond" title={<span><Icon type="pay-circle" /><span>&nbsp;Currencies</span></span>}>

@@ -14,3 +14,6 @@ body {
   background: rgba(255,255,255,.2);
   margin: 16px;
 }
+.title{
+  margin: 0.6em 0 2.6em;
+}
