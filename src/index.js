@@ -1,161 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as V from 'victory';
+
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Select } from 'antd';
 import { Modal, Button } from 'antd';
 import './index.css';
 import 'antd/dist/antd.css';
-import _ from "lodash";
+
+import CurrencyParent from './currencyInfo'
+import Converter from './converter'
+import Welcome from './welcome'
 
 const { Header, Content, Footer, Sider } = Layout;
 const Option = Select.Option;
 const { SubMenu } = Menu
-
-class CurrencyParent extends React.Component {
-
-    constructor() {
-      super();
-      this.state = {
-          rateRange: []
-      };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.symbol !== this.props.symbol) {
-            this.fetchData(nextProps.symbol)
-        }
-    }
-
-    componentDidMount() {
-        this.fetchData(this.props.symbol)
-    }
-
-    fetchData(symbol) {
-      let myStorage = window.localStorage;
-      if (myStorage.getItem(symbol) === null) {
-        const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
-        let futures = []
-        let flag = false;
-        for(let i = 2010; i <= 2018; i += 0.5){
-          let year, month;
-          if (!flag) {
-              year = i.toString()
-              month = "01"
-              flag = true
-          } else {
-              year = i - 0.5
-              year = year.toString()
-              month = "06"
-              flag = false
-          }
-          let date = year + "-" + month + "-" + "01"
-          let request_url = `http://data.fixer.io/api/${date}?access_key=${my_key}&symbols=${symbol}`
-          let future = fetch(request_url).then(response => response.json())
-          futures.push(future)
-        }
-
-        Promise.all(futures).then((data) => {
-            let rateRange = data.map((data) => [data.rates[symbol], data.date])
-            rateRange = _.sortBy(rateRange, ([rates, date]) => {
-              return date;
-            })
-            myStorage.setItem(symbol, JSON.stringify(rateRange));
-            this.setState({
-                rateRange: rateRange
-            })
-        })
-      } else {
-        this.setState({
-          rateRange: JSON.parse(myStorage.getItem(symbol))
-        });
-      }
-    }
-
-    render() {
-        return <CurrencyChild rateRange={this.state.rateRange}/>  
-    }
-}
-
-class CurrencyChild extends React.Component {
-    constructor() {
-      super();
-      this.state = {};
-    }
-    
-    componentWillReceiveProps(nextProps) {
-      this.setState({zoomDomain: undefined, selectedDomain: undefined})
-    }
-
-    handleZoom(domain) {
-      this.setState({selectedDomain: domain});
-    }
-  
-    handleBrush(domain) {
-      this.setState({zoomDomain: domain});
-    }
-
-    explainRateRange(arr) {
-      let result = arr.map(([rate, date]) => {
-        let dateGroup = date.split("-");
-        return {x: new Date(parseInt(dateGroup[0]), parseInt(dateGroup[1]), 1), y: rate};
-      })
-      return result
-    }
-
-    render() {
-      const { rateRange } = this.props;
-      let line = (
-      <V.VictoryLine
-        style={{
-          data: {stroke: "tomato"}
-        }}
-        data={this.explainRateRange(rateRange)}
-      />);
-
-      return (
-          <div>
-              <V.VictoryChart width={600} height={350} scale={{x: "time"}}
-                containerComponent={
-                  <V.VictoryZoomContainer responsive={false}
-                    zoomDimension="x"
-                    zoomDomain={this.state.zoomDomain}
-                    onZoomDomainChange={this.handleZoom.bind(this)}
-                  />
-                }
-              >
-                {line}
-              </V.VictoryChart>
-    
-              <V.VictoryChart
-                padding={{top: 0, left: 50, right: 50, bottom: 30}}
-                width={600} height={90} scale={{x: "time"}}
-                containerComponent={
-                  <V.VictoryBrushContainer responsive={false}
-                    brushDimension="x"
-                    brushDomain={this.state.selectedDomain}
-                    onBrushDomainChange={this.handleBrush.bind(this)}
-                  />
-                }
-              >
-                <V.VictoryAxis
-                  tickValues={[
-                    new Date(2010, 1, 1),
-                    new Date(2012, 1, 1),
-                    new Date(2014, 1, 1),
-                    new Date(2016, 1, 1),
-                    new Date(2018, 1, 1),
-                  ]}
-                  tickFormat={(x) => new Date(x).getFullYear()}
-                />
-                {line}
-              </V.VictoryChart>
-          </div>
-        )
-    }
-}
-
-
 
 class App extends React.Component { 
       constructor() {
@@ -163,8 +21,10 @@ class App extends React.Component {
         this.state = {
             collapsed: false,
             kind:["CNY","CAD"],
+            maybeUseful:["CNY","CAD"],
             selectKind: "CNY",
-            add: false
+            add: false,
+            showPage: "first"
         };
       }
       onCollapse = (collapsed) => {
@@ -172,15 +32,23 @@ class App extends React.Component {
       }
       changeSelect(item){
           var i = parseInt(item.key)
-          if (i>=0){
+          var key = item.key
+
+          if (i >= 0){
             this.setState({
-                selectKind: this.state.kind[parseInt(item.key)]
+                selectKind: this.state.kind[i],
+                showPage: "currency"
             })
           }
-          else if(i=="addMore") {
+          else if(key === "addMore") {
               this.setState({
                   add: true
               })
+          }
+          else if(key === "first" || key ==="subsubfirst") {
+            this.setState({
+              showPage: key
+            })
           }
       }
       menu(kind) {
@@ -196,7 +64,6 @@ class App extends React.Component {
           return result
       }
       handleClick (item) {
-        console.log(item.key)
         if (item.key == "addMore" && !this.state.add){
               this.setState({
                   add: true
@@ -223,7 +90,7 @@ class App extends React.Component {
         return (
           <div>
             <Modal
-              title="Basic Modal"
+              title="Choose Currency"
               visible={this.state.add}
               onOk={this.handleOk}
               onCancel={this.handleCancel}
@@ -233,8 +100,21 @@ class App extends React.Component {
           </div>
         )
       }
+      showContent(){
+        var showPage = this.state.showPage
+        if (showPage == "first"){
+          return <Welcome/>
+        }
+        else if (showPage == "subsubfirst"){
+          return <Converter/>
+        }
+        else if (showPage == "currency"){
+          return <CurrencyParent symbol={this.state.selectKind}/>
+        }
+      }
 
     render() {
+
         return (
           <Layout style={{ minHeight: '100vh' }}>
             <Sider
@@ -273,7 +153,7 @@ class App extends React.Component {
                   <Breadcrumb.Item>{this.state.selectKind}</Breadcrumb.Item>
                 </Breadcrumb>
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                  <CurrencyParent symbol={this.state.selectKind}/>
+                  {this.showContent()}
                 {this.addMore()}
                 </div>
               </Content>
