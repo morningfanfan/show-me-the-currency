@@ -152,7 +152,10 @@ class App extends React.Component {
               collapsed={this.state.collapsed}
               onCollapse={this.onCollapse}
             >
-              <div className="logo" />
+              <div className="logo" >
+              
+              <span><img className="logoImg" src="./Money.png"></img>SMTC</span>
+              </div>
               <Menu theme="dark" defaultSelectedKeys={['first']} defaultOpenKeys={['subfirst','subsecond']}
               mode="inline" onSelect={this.changeSelect.bind(this)} 
               onClick={this.handleClick.bind(this)}>
@@ -176,11 +179,6 @@ class App extends React.Component {
               </Menu>
             </Sider>
             <Layout>
-              <Header style={{ background: '#fff', padding: 0 }} >
-              <h1 class="heading heading-correct-pronounciation">
-              <em>Show Me The Currency</em>
-              </h1>
-              </Header>
               <Content style={{ margin: '0 16px' }}>
                   {this.showBread()}
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

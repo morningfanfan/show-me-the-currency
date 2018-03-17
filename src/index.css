@@ -13,9 +13,16 @@ body {
   height: 32px;
   background: rgba(255,255,255,.2);
   margin: 16px;
+  color:white;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2em
 }
 .title{
   margin-bottom: 1.6em;
+}
+.logoImg{
+  height: 30px;
+  padding-right: 20px;
 }
 
 
@@ -85,7 +92,8 @@ h1 {
 }
 .currencyNum{
   margin-right: 0.5em;
-  font-size: 1.3em
+  font-size: 1.3em;
+  font-family: cursive;
 }
 .rowBorder{
   border: 1px solid #ccc!important;
