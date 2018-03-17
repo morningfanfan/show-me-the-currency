@@ -15,5 +15,81 @@ body {
   margin: 16px;
 }
 .title{
-  margin: 0.6em 0 2.6em;
+  margin-bottom: 1.6em;
 }
+
+
+
+@import url(https://fonts.googleapis.com/css?family=EB+Garamond|Cardo:400italic);
+
+
+
+.heading-correct-pronounciation {
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
+
+
+
+em {
+  color: rgb(1, 21, 42);
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-style:normal;
+  text-shadow: 0.07em 0.07em 0 rgba(0, 0, 0, 0.1);
+
+}
+em::before {
+  content: "§";
+  display: inline-block;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+	opacity: 0.2;
+  margin: 0 0.6em;
+  font-size: 0.5em;
+}
+em::after {
+  content: "§";
+  display: inline-block;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+	opacity: 0.2;
+  margin: 0 0.6em;
+  font-size: 0.5em;
+}
+
+
+.bottom {
+  font-size: 1.5em;
+  letter-spacing: 0.07em;
+  font-size: 1em;
+  display: block;
+}
+
+h1 {
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  text-rendering: optimizeLegibility;
+  margin: 0
+}
+.currencyNum{
+  margin-right: 0.5em;
+  font-size: 1.3em
+}
+.rowBorder{
+  border: 1px solid #ccc!important;
+  padding: 0.8em
+}
+
+

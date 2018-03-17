@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { Select } from 'antd';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import './index.css';
 import 'antd/dist/antd.css';
 
@@ -64,7 +64,7 @@ class App extends React.Component {
           return result
       }
       handleClick (item) {
-        if (item.key == "addMore" && !this.state.add){
+        if (item.key === "addMore" && !this.state.add){
               this.setState({
                   add: true
               })
@@ -102,13 +102,13 @@ class App extends React.Component {
       }
       showContent(){
         var showPage = this.state.showPage
-        if (showPage == "first") {
+        if (showPage === "first") {
           return <Welcome/>
         }
-        else if (showPage == "subsubfirst") {
+        else if (showPage === "subsubfirst") {
           return <Converter/>
         }
-        else if (showPage == "currency") {
+        else if (showPage === "currency") {
           return <CurrencyParent symbol={this.state.selectKind}/>
         }
       }
@@ -176,7 +176,11 @@ class App extends React.Component {
               </Menu>
             </Sider>
             <Layout>
-              <Header style={{ background: '#fff', padding: 0 }} />
+              <Header style={{ background: '#fff', padding: 0 }} >
+              <h1 class="heading heading-correct-pronounciation">
+              <em>Show Me The Currency</em>
+              </h1>
+              </Header>
               <Content style={{ margin: '0 16px' }}>
                   {this.showBread()}
                 <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
@@ -228,7 +232,6 @@ class SelectKind extends React.Component {
     for (let i = 0; i < 10; i++) {
       children.push(<Option key={currencyKind[i]}>{currencyKind[i]}</Option>);
     }
-    const { size } = this.state;
     return (
       <div>
         <Select
