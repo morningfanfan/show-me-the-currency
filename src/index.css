@@ -4,6 +4,19 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+td span {
+  font-family: sans-serif;
+}
+
+.alignCenter {
+  text-align: center !important;
+}
+
+.ant-table table{
+  width: 80% !important;
+}
+
 #components-layout-demo-side .logo {
   height: 32px;
   background: rgba(255,255,255,.2);
@@ -100,4 +113,31 @@ h1 {
   padding: 0.8em
 }
 
+.letstry{
+  font-family: serif;
+  font-size: 18px;
+  
+}
+
+.convlabel{
+  font-family: cursive;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.convBtn{
+  
+  font-size:18px;
+  font-weight: bold;
+}
+.convfield{
+  
+  font-size: 15px;
+  font-weight:bold;
+}
+
+.convtable{
+  text-align:center;
+  font-family:"AppleGothic";
+}
 
