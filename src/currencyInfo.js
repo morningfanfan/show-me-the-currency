@@ -8,24 +8,24 @@ class CurrencyParent extends React.Component {
     constructor() {
       super();
       this.state = {
-          rateRange: []
+          rateRange: [],
+          liveData: "x"
       };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.symbol !== this.props.symbol) {
             this.fetchData(nextProps.symbol)
+            this.liveData(nextProps.symbol)
         }
-    }
-
-    componentDidMount() {
-        this.fetchData(this.props.symbol)
     }
 
     fetchData(symbol) {
       let myStorage = window.localStorage;
       if (myStorage.getItem(symbol) === null) {
+        console.log("empty")
         const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
+        const backup_key = "8703da158c3d1333f6d3e77f9b747098"
         let futures = []
         let flag = false;
         for(let i = 2010; i <= 2018; i += 0.5){
@@ -57,10 +57,49 @@ class CurrencyParent extends React.Component {
             })
         })
       } else {
+        console.log("get",JSON.parse(myStorage.getItem(symbol)))
         this.setState({
           rateRange: JSON.parse(myStorage.getItem(symbol))
         });
       }
+    }
+    liveData(symbol){
+      const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
+      const backup_key = "8703da158c3d1333f6d3e77f9b747098"
+      let request_url = `http://data.fixer.io/api/latest?access_key=${backup_key}&symbols=${symbol}`
+      fetch(request_url)
+      .then(response => response.json())
+      .then((data) => {
+        var int_data = parseFloat(data.rates[symbol]).toFixed(2)
+        this.setState({
+          liveData: int_data
+        }) 
+        })
+      
+    }
+    componentDidMount() {
+      var symbol =this.props.symbol
+
+      this.fetchData(symbol)
+      this.liveData(symbol)
+
+      const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
+      const backup_key = "8703da158c3d1333f6d3e77f9b747098"
+      let request_url = `http://data.fixer.io/api/latest?access_key=${my_key}&symbols=${symbol}`
+
+      this.interval = setInterval(function(){ 
+      fetch(request_url)
+      .then(response => response.json())
+      .then((data) => {
+        var int_data = parseFloat(data.rates[symbol]).toFixed(2)
+        this.setState({
+          liveData: int_data
+        })
+        })
+      }.bind(this), 3600000);
+    }
+    componentWillUnmount() {
+      clearInterval(this.interval);
     }
 
     render() {
@@ -74,10 +113,10 @@ class CurrencyParent extends React.Component {
         <Row className="rowBorder">
         <Col span={12} offset={6}>
         <h1 style={{ margin: '0' }} className="heading heading-correct-pronounciation">
-        <span className="currencyNum">1 </span>
+        <span className="currencyNum">{this.state.liveData}</span>
         <span ><em>{this.props.symbol}</em></span>
         <span> = </span>
-        <span className="currencyNum">x</span> 
+        <span className="currencyNum">1</span> 
         <span><em>EUR</em></span>
         </h1>
         </Col>
@@ -116,13 +155,14 @@ class CurrencyChild extends React.Component {
     explainRateRange(arr) {
       let result = arr.map(([rate, date]) => {
         let dateGroup = date.split("-");
+        console.log(rate)
         return {x: new Date(parseInt(dateGroup[0]), parseInt(dateGroup[1]), 1), y: rate};
       })
       return result
     }
 
     render() {
-      console.log()
+ 
       const { rateRange } = this.props;
       let line = (
       <V.VictoryLine
