@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Breadcrumb, Icon, Cascader, Row, Col, Table, Button, Input, Form, Select, message} from 'antd';
-
+import _ from "lodash";
 const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
 const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;
 const Option = Select.Option;
-
+// const convtStyle = {font:serif};
+const tableStyle = {textAlign: 'center'};
 
 const columns = [{
   title: 'Currency',
@@ -116,23 +117,24 @@ _handleChange2(e){
     <Row>
         <Col>
         <br/>
-
+        <p className = "convlabel"><Icon type="shop" />&nbsp;Currency Converter</p>
         <Row type="flex" justify="center" align="bottom">
-            <Col span={6}>
+        
+            <Col span={6} className = "convfield">
             <DemoBox value={100}>Currency I have</DemoBox>
             </Col>
-            <Col span={6}>
+            <Col span={6} >
             <DemoBox value={100}></DemoBox>
             </Col>
-            <Col span={6}>
+            <Col span={6} className = "convfield">
             <DemoBox value={50}>Currency I want</DemoBox>
             </Col>
         </Row>
 
         <Row type="flex" justify="center" align="bottom">
-            <Col span={6}>
-            <Select defaultValue="EUR" style={{ width: 120 }} onChange={this._handleChange1.bind(this)}>
-      <Option value="EUR">EUR</Option>
+            <Col span={6}  >
+            <Select  className = "letstry" defaultValue="EUR" style={{width:150 }} onChange={this._handleChange1.bind(this)}>
+      <Option value="EUR" >EUR</Option>
       <Option value="USD">USD</Option>
       <Option value="CAD">CAD</Option>
       <Option value="GBP">GBP</Option>
@@ -141,8 +143,8 @@ _handleChange2(e){
     </Select>
             </Col>
             <Col span={6}></Col>
-            <Col span={6}>
-            <Select defaultValue="USD"  style={{ width: 120 }} onChange={this._handleChange2.bind(this)}>
+            <Col span={6} >
+            <Select className = "letstry" defaultValue="USD"  style={{ width: 150 }} onChange={this._handleChange2.bind(this)}>
       <Option value="EUR">EUR</Option>
       <Option value="USD">USD</Option>
       <Option value="CAD">CAD</Option>
@@ -156,26 +158,26 @@ _handleChange2(e){
         <br/>
 
         <Row type="flex" justify="center" align="bottom">
-            <Col span={6} >
+            <Col span={6}  className = "convfield">
             <DemoBox value={50}>Amount</DemoBox>
             </Col>
             <Col span={6} >
-            <DemoBox value={50}><Button type="primary" onClick = {()=>this.handleConvert()}>
+            <DemoBox value={50}><Button className = "convBtn" type="primary" onClick = {()=>this.handleConvert()}>
             <Icon type="sync" />Convert
             </Button></DemoBox>
             </Col>
-            <Col span={6}>
-            <DemoBox value={50}>Amount</DemoBox>
+            <Col span={6} className = "convfield">
+            <DemoBox  value={50}>Amount</DemoBox>
             </Col>
         </Row>
 
         <Row type="flex" justify="center" align="bottom">
             <Col span={6} >
-            <Input id = "a1" placeholder="1" defaultValue = "1"  style={{ width: 120 }}/>
+            <Input className = "lestry" id = "a1" placeholder="1" defaultValue = "1"  style={{ width: 150 }}/>
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
-            <Input  value = {this.state.amount2} style={{ width: 120 }}/>
+            <Input  className = "letstry" value = {this.state.amount2} style={{ width: 150 }}/>
             </Col>
         </Row>
 
@@ -184,8 +186,8 @@ _handleChange2(e){
 
         </Col>
         <Col>
-        <p><Icon type="clock-circle-o" />&nbsp;Hot Live Currency Rate</p>
-        <Table dataSource={this.state.dataSource} columns={columns} pagination={false}/>
+        <p className = "convlabel"><Icon type="clock-circle-o" />&nbsp;Live Currency Rate Trend</p>
+        <Table  className = "convtable"  dataSource={this.state.dataSource } columns={columns} pagination={false}/>
         </Col>
     </Row>
 </div>
