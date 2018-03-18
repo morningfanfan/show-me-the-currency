@@ -175,7 +175,7 @@ _handleChange2(e){
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
-            <Input defaultValue = "1.229861"  value = {this.state.amount2} style={{ width: 120 }}/>
+            <Input placeholder= "1.229861"  value = {this.state.amount2} style={{ width: 120 }}/>
             </Col>
         </Row>
 
