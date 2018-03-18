@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Cascader, Row, Col, Table, Button, Input, Form, Select} from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Cascader, Row, Col, Table, Button, Input, Form, Select, message} from 'antd';
 
 const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
 const { SubMenu } = Menu;
@@ -11,14 +11,17 @@ const columns = [{
   title: 'Currency',
   dataIndex: 'currency',
   key: 'currency',
+  className:'alignCenter',
 }, {
   title: 'Rate',
   dataIndex: 'rate',
   key: 'rate',
+  className:'alignCenter',
 }, {
   title: 'Change',
   dataIndex: 'change',
   key: 'change',
+  className:'alignCenter',
 }];
 
 
@@ -26,42 +29,46 @@ class Converter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cur1:"EUR",
       cur2: "USD",
       rate: 0,
-      amount2:null,
+      amount2:1.22961,
       dataSource: [{
         key: '1',
         currency: 'EUR/USD',
-        rate: 1.229951,
+        rate: 6.329905,
         change: <Icon type="caret-up" />
       }, {
         key: '2',
-        currency: 'EUR/CAD',
-        rate: 1.610257,
-        change: <Icon type="caret-down" />
+        currency: 'USD/CNY',
+        rate: 1.132904,
+        change: <Icon type="caret-up" />
       }, {
         key: '3',
         currency: 'EUR/GBP',
-        rate: 0.882687,
+        rate: 1.309204,
         change: <Icon type="caret-down" />
       },{
         key: '4',
-        currency: 'EUR/CNY',
-        rate: 7.785474,
-        change: <Icon type="caret-down" />
+        currency: 'USD/CAD',
+        rate: 4.834926,
+        change: <Icon type="caret-up" />
       }, {
         key: '5',
-        currency: 'EUR/AUD',
+        currency: 'CAD/CNY',
         rate: 1.593284,
         change: <Icon type="caret-down" />
       }]
     };   
   }
-  
-_handleChange(e){
-  
+
+_handleChange1(e){
+  this.setState({cur1:e});
+  console.log("cur1statechanged");
+}
+_handleChange2(e){
   this.setState({cur2:e});
-  console.log("changed");
+  console.log("cur2statechanged");
 }
 
   handleConvert(){
@@ -70,28 +77,36 @@ _handleChange(e){
     let data = fetch(url).then(response => {
       return response.json();
     }).then(data => {
+      let cur1 = this.state.cur1;
       let cur2 = this.state.cur2;
-      let result = data["rates"][cur2];
+      let result = (data["rates"][cur2])/(data["rates"][cur1]);
       this.setState({rate: result});
-      let amount1 = parseFloat(document.getElementById("a1").value, 10);
-      let cal = amount1 * this.state.rate;
-      this.setState({amount2:cal});
+      let amount1 = document.getElementById("a1").value;
       // debugger;
-      
-      
+      if (isNaN(amount1)){
+        message.warning("Amount must be a number!");
+      }else if(amount1 < 0){
+        message.warning("Amount must be greater than zero!");
+      }else{
+        amount1 = parseFloat(document.getElementById("a1").value, 10);
+        let cal = (amount1 * this.state.rate).toFixed(6);
+        this.setState({amount2:cal});
+      }
+
       const foo = this.state.dataSource;
-      let s = [data["rates"]["USD"], data["rates"]["CAD"], data["rates"]["GBP"], data["rates"]["CNY"], data["rates"]["AUD"]];
+      let s = [parseFloat((data["rates"]["USD"])/(data["rates"]["EUR"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["EUR"])/(data["rates"]["GBP"]), 10).toFixed(6), parseFloat((data["rates"]["CAD"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["CAD"]), 10).toFixed(6)];
       let tmp = [foo[0].rate, foo[1].rate, foo[2].rate, foo[3].rate, foo[4].rate];
 
       for (let i=0; i<5; i++){
         foo[i].rate = s[i];
-        if ((s[i]-tmp[i])>=0){
+        if ((s[i]-tmp[i])>0){
           foo[i].change = <Icon type="caret-up" />;
         }else{
           foo[i].change = <Icon type="caret-down" />;
         }
       }
       this.setState({dataSource:foo});
+      console.log(this.state.dataSource);
     });
     }
 
@@ -114,13 +129,19 @@ _handleChange(e){
 
         <Row type="flex" justify="center" align="bottom">
             <Col span={6}>
-            <Select defaultValue="EUR" style={{ width: 120 }} onChange={this._handleChange.bind(this)}>
+            <Select defaultValue="EUR" style={{ width: 120 }} onChange={this._handleChange1.bind(this)}>
       <Option value="EUR">EUR</Option>
+      <Option value="USD">USD</Option>
+      <Option value="CAD">CAD</Option>
+      <Option value="GBP">GBP</Option>
+      <Option value="CNY">CNY</Option>
+      <Option value="AUD">AUD</Option>
     </Select>
             </Col>
             <Col span={6}></Col>
             <Col span={6}>
-            <Select defaultValue="USD"  style={{ width: 120 }} onChange={this._handleChange.bind(this)}>
+            <Select defaultValue="USD"  style={{ width: 120 }} onChange={this._handleChange2.bind(this)}>
+      <Option value="EUR">EUR</Option>
       <Option value="USD">USD</Option>
       <Option value="CAD">CAD</Option>
       <Option value="GBP">GBP</Option>
@@ -133,7 +154,7 @@ _handleChange(e){
         <br/>
 
         <Row type="flex" justify="center" align="bottom">
-            <Col span={6} offset = {2}>
+            <Col span={6} >
             <DemoBox value={50}>Amount</DemoBox>
             </Col>
             <Col span={6} >
@@ -148,11 +169,11 @@ _handleChange(e){
 
         <Row type="flex" justify="center" align="bottom">
             <Col span={6} >
-            <Input id = "a1" ref = "a1" placeholder="1"/>
+            <Input id = "a1" defaultValue = "1"  placeholder="1" style={{ width: 120 }}/>
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
-            <Input placeholder="" value = {this.state.amount2} placeholder = "1.22961"/>
+            <Input placeholder="1.22961"  value = {this.state.amount2} style={{ width: 120 }}/>
             </Col>
         </Row>
 
@@ -161,8 +182,8 @@ _handleChange(e){
 
         </Col>
         <Col>
-        <p><Icon type="clock-circle-o" />&nbsp;Live Currency Rate</p>
-        <Table dataSource={this.state.dataSource} columns={columns}/>
+        <p><Icon type="clock-circle-o" />&nbsp;Hot Live Currency Rate</p>
+        <Table dataSource={this.state.dataSource} columns={columns} pagination={{ pageSize:5 }}/>
         </Col>
     </Row>
 </div>
