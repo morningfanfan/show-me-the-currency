@@ -23,6 +23,7 @@ class CurrencyParent extends React.Component {
     fetchData(symbol) {
       let myStorage = window.localStorage;
       if (myStorage.getItem(symbol) === null) {
+        console.log("empty")
         const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
         const backup_key = "8703da158c3d1333f6d3e77f9b747098"
         let futures = []
@@ -56,6 +57,7 @@ class CurrencyParent extends React.Component {
             })
         })
       } else {
+        console.log("get",JSON.parse(myStorage.getItem(symbol)))
         this.setState({
           rateRange: JSON.parse(myStorage.getItem(symbol))
         });
@@ -68,7 +70,7 @@ class CurrencyParent extends React.Component {
       fetch(request_url)
       .then(response => response.json())
       .then((data) => {
-        var int_data = parseFloat(data.rates[symbol]).toFixed(3)
+        var int_data = parseFloat(data.rates[symbol]).toFixed(2)
         this.setState({
           liveData: int_data
         }) 
@@ -76,7 +78,6 @@ class CurrencyParent extends React.Component {
       
     }
     componentDidMount() {
-      console.log("1")
       var symbol =this.props.symbol
 
       this.fetchData(symbol)
@@ -90,7 +91,7 @@ class CurrencyParent extends React.Component {
       fetch(request_url)
       .then(response => response.json())
       .then((data) => {
-        var int_data = parseFloat(data.rates[symbol]).toFixed(3)
+        var int_data = parseFloat(data.rates[symbol]).toFixed(2)
         this.setState({
           liveData: int_data
         })
@@ -154,13 +155,14 @@ class CurrencyChild extends React.Component {
     explainRateRange(arr) {
       let result = arr.map(([rate, date]) => {
         let dateGroup = date.split("-");
+        console.log(rate)
         return {x: new Date(parseInt(dateGroup[0]), parseInt(dateGroup[1]), 1), y: rate};
       })
       return result
     }
 
     render() {
-      console.log()
+ 
       const { rateRange } = this.props;
       let line = (
       <V.VictoryLine
