@@ -94,7 +94,7 @@ _handleChange2(e){
       }
 
       const foo = this.state.dataSource;
-      let s = [parseFloat((data["rates"]["USD"])/(data["rates"]["EUR"]), 10).toFixed(4), parseFloat((data["rates"]["CNY"])/(data["rates"]["USD"]), 10).toFixed(4), parseFloat((data["rates"]["EUR"])/(data["rates"]["GBP"]), 10).toFixed(4), parseFloat((data["rates"]["CAD"])/(data["rates"]["USD"]), 10).toFixed(4), parseFloat((data["rates"]["CNY"])/(data["rates"]["CAD"]), 10).toFixed(4)];
+      let s = [parseFloat((data["rates"]["USD"])/(data["rates"]["EUR"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["EUR"])/(data["rates"]["GBP"]), 10).toFixed(6), parseFloat((data["rates"]["CAD"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["CAD"]), 10).toFixed(6)];
       let tmp = [foo[0].rate, foo[1].rate, foo[2].rate, foo[3].rate, foo[4].rate];
 
       for (let i=0; i<5; i++){
@@ -171,7 +171,7 @@ _handleChange2(e){
 
         <Row type="flex" justify="center" align="bottom">
             <Col span={6} >
-            <Input id = "a1" defaultValue = "1"  style={{ width: 120 }}/>
+            <Input id = "a1" placeholder="1" defaultValue = "1"  style={{ width: 120 }}/>
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
@@ -185,7 +185,7 @@ _handleChange2(e){
         </Col>
         <Col>
         <p><Icon type="clock-circle-o" />&nbsp;Hot Live Currency Rate</p>
-        <Table dataSource={this.state.dataSource} columns={columns} pagination={{ pageSize:5 }}/>
+        <Table dataSource={this.state.dataSource} columns={columns} pagination={false}/>
         </Col>
     </Row>
 </div>
