@@ -32,7 +32,7 @@ class Converter extends React.Component {
       cur1:"EUR",
       cur2: "USD",
       rate: 0,
-      amount2:1.22961,
+      amount2:1.229861,
       dataSource: [{
         key: '1',
         currency: 'EUR/USD',
@@ -64,11 +64,11 @@ class Converter extends React.Component {
 
 _handleChange1(e){
   this.setState({cur1:e});
-  console.log("cur1statechanged");
+
 }
 _handleChange2(e){
   this.setState({cur2:e});
-  console.log("cur2statechanged");
+
 }
 
   handleConvert(){
@@ -94,7 +94,7 @@ _handleChange2(e){
       }
 
       const foo = this.state.dataSource;
-      let s = [parseFloat((data["rates"]["USD"])/(data["rates"]["EUR"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["EUR"])/(data["rates"]["GBP"]), 10).toFixed(6), parseFloat((data["rates"]["CAD"])/(data["rates"]["USD"]), 10).toFixed(6), parseFloat((data["rates"]["CNY"])/(data["rates"]["CAD"]), 10).toFixed(6)];
+      let s = [parseFloat((data["rates"]["USD"])/(data["rates"]["EUR"]), 10).toFixed(4), parseFloat((data["rates"]["CNY"])/(data["rates"]["USD"]), 10).toFixed(4), parseFloat((data["rates"]["EUR"])/(data["rates"]["GBP"]), 10).toFixed(4), parseFloat((data["rates"]["CAD"])/(data["rates"]["USD"]), 10).toFixed(4), parseFloat((data["rates"]["CNY"])/(data["rates"]["CAD"]), 10).toFixed(4)];
       let tmp = [foo[0].rate, foo[1].rate, foo[2].rate, foo[3].rate, foo[4].rate];
 
       for (let i=0; i<5; i++){
@@ -175,7 +175,7 @@ _handleChange2(e){
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
-            <Input placeholder= "1.229861"  value = {this.state.amount2} style={{ width: 120 }}/>
+            <Input  value = {this.state.amount2} style={{ width: 120 }}/>
             </Col>
         </Row>
 
