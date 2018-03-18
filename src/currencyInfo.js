@@ -134,6 +134,9 @@ class CurrencyParent extends React.Component {
     }
 }
 
+// interface Props {
+//   rateRange: Array<[number, string]>
+// }
 class CurrencyChild extends React.Component {
     constructor() {
       super();
@@ -141,7 +144,26 @@ class CurrencyChild extends React.Component {
     }
     
     componentWillReceiveProps(nextProps) {
-      this.setState({zoomDomain: undefined, selectedDomain: undefined})
+      console.log(1)
+      this.setState({zoomDomain: this.findEdge(nextProps.rateRange), selectedDomain: this.findEdge(nextProps.rateRange)})
+    }
+
+    findEdge(rateRange) {
+      let xmin = Infinity, xmax = 0;
+      let ymin = Infinity, ymax = 0;
+
+      for (let [price, datestring] of rateRange) {
+        let dateGroup = datestring.split("-");
+        let date = new Date(parseInt(dateGroup[0]), parseInt(dateGroup[1]), 1);
+        xmin = Math.min(xmin, date);
+        xmax = Math.max(xmax, date);
+        ymin = Math.min(ymin, price);
+        ymax = Math.max(ymax, price);
+      }
+
+      xmin = new Date(xmin);
+      xmax = new Date(xmax);
+      return {x: [xmin, xmax], y: [ymin, ymax]}
     }
 
     handleZoom(domain) {
@@ -155,7 +177,6 @@ class CurrencyChild extends React.Component {
     explainRateRange(arr) {
       let result = arr.map(([rate, date]) => {
         let dateGroup = date.split("-");
-        console.log(rate)
         return {x: new Date(parseInt(dateGroup[0]), parseInt(dateGroup[1]), 1), y: rate};
       })
       return result
