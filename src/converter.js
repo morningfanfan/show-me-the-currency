@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {Table, Button, Input, Select} from 'antd';
 import { Layout, Menu, Breadcrumb, Icon, Cascader, Row, Col, Table, Button, Input, Form, Select} from 'antd';
 
 const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
 const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const Option = Select.Option;
 
 
