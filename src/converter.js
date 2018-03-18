@@ -118,10 +118,12 @@ _handleChange2(e){
         <br/>
 
         <Row type="flex" justify="center" align="bottom">
-            <Col span={6} offset = {1}>
+            <Col span={6}>
             <DemoBox value={100}>Currency I have</DemoBox>
             </Col>
-            <Col span={6} ><DemoBox value={100}></DemoBox></Col>
+            <Col span={6}>
+            <DemoBox value={100}></DemoBox>
+            </Col>
             <Col span={6}>
             <DemoBox value={50}>Currency I want</DemoBox>
             </Col>
@@ -169,11 +171,11 @@ _handleChange2(e){
 
         <Row type="flex" justify="center" align="bottom">
             <Col span={6} >
-            <Input id = "a1" defaultValue = "1"  placeholder="1" style={{ width: 120 }}/>
+            <Input id = "a1" defaultValue = "1"  style={{ width: 120 }}/>
             </Col>
             <Col span = {6}></Col>
             <Col span={6}>
-            <Input placeholder="1.22961"  value = {this.state.amount2} style={{ width: 120 }}/>
+            <Input defaultValue = "1.229861"  value = {this.state.amount2} style={{ width: 120 }}/>
             </Col>
         </Row>
 
