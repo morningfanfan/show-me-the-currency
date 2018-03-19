@@ -3,7 +3,7 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "../img/Money.ico",
+      "src": "https://s3.us-east-2.amazonaws.com/showmethecurrency/Money.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

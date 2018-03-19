@@ -11,7 +11,7 @@ import CurrencyParent from './currencyInfo'
 import Converter from './converter'
 import Welcome from './welcome'
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const Option = Select.Option;
 const { SubMenu } = Menu
 
@@ -154,7 +154,7 @@ class App extends React.Component {
             >
               <div className="logo" >
               
-              <span><img className="logoImg" src="./Money.png"></img>SMTC</span>
+              <span><img className="logoImg" src="https://s3.us-east-2.amazonaws.com/showmethecurrency/Money.png"></img>SMTC</span>
               </div>
               <Menu theme="dark" defaultSelectedKeys={['first']} defaultOpenKeys={['subfirst','subsecond']}
               mode="inline" onSelect={this.changeSelect.bind(this)} 

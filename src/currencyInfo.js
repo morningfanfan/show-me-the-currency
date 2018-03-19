@@ -23,9 +23,7 @@ class CurrencyParent extends React.Component {
     fetchData(symbol) {
       let myStorage = window.localStorage;
       if (myStorage.getItem(symbol) === null) {
-        console.log("empty")
-        const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
-        const backup_key = "8703da158c3d1333f6d3e77f9b747098"
+        const my_key = "2490818d4ea1413695d9318dff4c1fb5"
         let futures = []
         let flag = false;
         for(let i = 2010; i <= 2018; i += 0.5){
@@ -41,7 +39,7 @@ class CurrencyParent extends React.Component {
               flag = false
           }
           let date = year + "-" + month + "-" + "01"
-          let request_url = `http://data.fixer.io/api/${date}?access_key=${my_key}&symbols=${symbol}`
+          let request_url = `https://data.fixer.io/api/${date}?access_key=${my_key}&symbols=${symbol}`
           let future = fetch(request_url).then(response => response.json())
           futures.push(future)
         }
@@ -64,9 +62,8 @@ class CurrencyParent extends React.Component {
       }
     }
     liveData(symbol){
-      const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
-      const backup_key = "8703da158c3d1333f6d3e77f9b747098"
-      let request_url = `http://data.fixer.io/api/latest?access_key=${backup_key}&symbols=${symbol}`
+      const my_key = "2490818d4ea1413695d9318dff4c1fb5"
+      let request_url = `https://data.fixer.io/api/latest?access_key=${my_key}&symbols=${symbol}`
       fetch(request_url)
       .then(response => response.json())
       .then((data) => {
@@ -83,15 +80,15 @@ class CurrencyParent extends React.Component {
       this.fetchData(symbol)
       this.liveData(symbol)
 
-      const my_key = "7f21d6e5387381e9c5ab93d0eefc3af5"
-      const backup_key = "8703da158c3d1333f6d3e77f9b747098"
-      let request_url = `http://data.fixer.io/api/latest?access_key=${my_key}&symbols=${symbol}`
+      const my_key = "2490818d4ea1413695d9318dff4c1fb5"
+      let request_url = `https://data.fixer.io/api/latest?access_key=${my_key}&symbols=${symbol}`
 
       this.interval = setInterval(function(){ 
       fetch(request_url)
       .then(response => response.json())
       .then((data) => {
         var int_data = parseFloat(data.rates[symbol]).toFixed(2)
+        console.log("Debug1", int_data)
         this.setState({
           liveData: int_data
         })

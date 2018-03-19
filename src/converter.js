@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Cascader, Row, Col, Table, Button, Input, Form, Select, message} from 'antd';
-import _ from "lodash";
+import React from 'react';
+import { Icon, Row, Col, Table, Button, Input, Select, message} from 'antd';
 const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
-const { SubMenu } = Menu;
-const { Content, Footer, Sider } = Layout;
 const Option = Select.Option;
 // const convtStyle = {font:serif};
-const tableStyle = {textAlign: 'center'};
 
 const columns = [{
   title: 'Currency',
@@ -74,8 +70,8 @@ _handleChange2(e){
 
   handleConvert(){
 
-    let url = "https://data.fixer.io/api/latest?access_key=ada017a06e6e9c7d859663c60041471a";
-    let data = fetch(url).then(response => {
+    let url = "https://data.fixer.io/api/latest?access_key=2490818d4ea1413695d9318dff4c1fb5";
+    fetch(url).then(response => {
       return response.json();
     }).then(data => {
       let cur1 = this.state.cur1;

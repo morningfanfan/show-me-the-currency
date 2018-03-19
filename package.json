@@ -2,6 +2,7 @@
   "name": "show-me-the-currency",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://ka3xr15hdi.execute-api.us-east-2.amazonaws.com/running/showMeTheCurrency",
   "dependencies": {
     "antd": "^3.3.0",
     "immutable": "^3.8.2",
