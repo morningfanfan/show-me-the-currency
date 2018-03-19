@@ -98,12 +98,11 @@ _handleChange2(e){
         foo[i].rate = s[i];
         if ((s[i]-tmp[i])>0){
           foo[i].change = <Icon type="caret-up" />;
-        }else{
+        }else if((s[i]-tmp[i])<0){
           foo[i].change = <Icon type="caret-down" />;
         }
       }
       this.setState({dataSource:foo});
-      console.log(this.state.dataSource);
     });
     }
 
